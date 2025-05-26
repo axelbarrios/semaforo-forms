@@ -49,8 +49,6 @@ const FormHeader: React.FC<FormHeaderProps> = ({ spouse, onToggleSpouse, showIns
         <h2 className="text-lg md:text-xl lg:text-2xl font-semibold mb-4 text-center">
           {spouse === 'husband' ? t('husbandForm') : t('wifeForm')}
         </h2>
-        
-        
       </div>
       
       {showInstructions && (
