@@ -30,21 +30,30 @@ function doPost(e) {
       data.personalInfo.previousMarriages, // Matrimonios anteriores
       data.personalInfo.numberOfChildren,  // Número de hijos
       data.personalInfo.spouseEmail,   // Email del cónyuge
-      // Add answers data
-      ...Object.entries(data.answers)
-        .sort(([a], [b]) => Number(a) - Number(b))
-        .map(([_, value]) => value),
-      // Add factor totals
+    ];
+
+    // Add answers (questions 1-75)
+    for (let i = 1; i <= 75; i++) {
+      rowData.push(data.answers[i] || '');
+    }
+
+    // Add factor totals
+    rowData.push(
       data.CONSENSO,                   // CONSENSO total
       data.SATISFACCION,              // SATISFACCION total
       data.COHESION,                  // COHESION total
       data['EXPRESION DE AFECTO'],    // EXPRESION DE AFECTO total
       data['CONEXION SEXUAL'],        // CONEXION SEXUAL total
-      data.TOTAL                      // TOTAL general
-    ];
+      data.TOTAL,                     // TOTAL general
+      'No',                           // PDF_Generado
+      ''                              // ID_PDF
+    );
 
     // Append the row to the appropriate sheet
     sheet.appendRow(rowData);
+    
+    // Apply conditional formatting
+    applyConditionalFormatting(sheet);
     
     return ContentService.createTextOutput(JSON.stringify({
       success: true,
@@ -88,28 +97,7 @@ function doGet(e) {
         return obj;
       });
     }
-    const invertedQuestions = [1, 2, 3, 4, 6, 7, 10, 19, 21, 30, 31, 33, 45, 49, 50, 52, 63, 65, 66, 68, 75];
     
-    
-    for (let i = 1; i <= 75; i++) {
-      rowData.push(data.answers[i] || '');
-    }
-    
-   
-    const factorScores = calculateFactorScores(data.answers, invertedQuestions);
-    rowData.push(
-      factorScores.CONSENSO.score,
-      factorScores.SATISFACCION.score,
-      factorScores.COHESION.score,
-      factorScores['EXPRESION DE AFECTO'].score,
-      factorScores['CONEXION SEXUAL'].score,
-      Object.values(factorScores).reduce((sum, factor) => sum + factor.score, 0),
-      'No', // PDF_Generado
-      '' // ID_PDF
-    );
-    
-    
-    sheet.appendRow(rowData);
     // Prepare the response
     const response = {
       metadata: {
@@ -144,12 +132,10 @@ function doGet(e) {
   }
 }
 
-
 function applyConditionalFormatting(sheet) {
- 
   const lastColumn = sheet.getLastColumn();
   
-  
+  // Define the columns for factor scores
   const factorColumns = [
     lastColumn - 7, // CONSENSO
     lastColumn - 6, // SATISFACCION
@@ -159,107 +145,70 @@ function applyConditionalFormatting(sheet) {
     lastColumn - 2  // TOTAL
   ];
   
-  
+  // Apply formatting rules for each factor column
   factorColumns.forEach(column => {
-   
-    const range = sheet.getRange(2, column, 1000, 1); // Desde la fila 2 hasta 1000 filas
+    const range = sheet.getRange(2, column, sheet.getMaxRows() - 1, 1);
     
-   
+    // Clear existing rules for this range
+    const rules = sheet.getConditionalFormatRules();
+    const newRules = rules.filter(rule => {
+      const ranges = rule.getRanges();
+      return !ranges.some(r => r.getA1Notation() === range.getA1Notation());
+    });
+    sheet.setConditionalFormatRules(newRules);
+    
+    // Add new rules
     const greenRule = SpreadsheetApp.newConditionalFormatRule()
       .whenNumberGreaterThan(50)
-      .setBackground('#b7e1cd') 
+      .setBackground('#b7e1cd')
       .setRanges([range])
       .build();
     
-  
     const yellowRule = SpreadsheetApp.newConditionalFormatRule()
       .whenNumberBetween(30, 50)
-      .setBackground('#fce8b2') 
+      .setBackground('#fce8b2')
       .setRanges([range])
       .build();
-    
     
     const redRule = SpreadsheetApp.newConditionalFormatRule()
       .whenNumberLessThan(30)
-      .setBackground('#f4c7c3') 
+      .setBackground('#f4c7c3')
       .setRanges([range])
       .build();
     
-    
-    const rules = sheet.getConditionalFormatRules();
-    rules.push(greenRule, yellowRule, redRule);
-    sheet.setConditionalFormatRules(rules);
+    // Apply the new rules
+    const updatedRules = sheet.getConditionalFormatRules();
+    updatedRules.push(greenRule, yellowRule, redRule);
+    sheet.setConditionalFormatRules(updatedRules);
   });
   
-  
+  // Format PDF Generated column
   const pdfGeneratedColumn = lastColumn - 1;
-  const pdfGeneratedRange = sheet.getRange(2, pdfGeneratedColumn, 1000, 1);
+  const pdfRange = sheet.getRange(2, pdfGeneratedColumn, sheet.getMaxRows() - 1, 1);
   
-  
-  const pdfGeneratedYesRule = SpreadsheetApp.newConditionalFormatRule()
-    .whenTextEqualTo("Sí")
-    .setBackground('#b7e1cd') // Verde claro
-    .setRanges([pdfGeneratedRange])
-    .build();
-  
- 
-  const pdfGeneratedNoRule = SpreadsheetApp.newConditionalFormatRule()
-    .whenTextEqualTo("No")
-    .setBackground('#fce8b2') // Amarillo claro
-    .setRanges([pdfGeneratedRange])
-    .build();
-  
-  
+  // Clear existing rules for PDF column
   const pdfRules = sheet.getConditionalFormatRules();
-  pdfRules.push(pdfGeneratedYesRule, pdfGeneratedNoRule);
-  sheet.setConditionalFormatRules(pdfRules);
+  const newPdfRules = pdfRules.filter(rule => {
+    const ranges = rule.getRanges();
+    return !ranges.some(r => r.getA1Notation() === pdfRange.getA1Notation());
+  });
+  sheet.setConditionalFormatRules(newPdfRules);
+  
+  // Add new PDF column rules
+  const pdfYesRule = SpreadsheetApp.newConditionalFormatRule()
+    .whenTextEqualTo("Sí")
+    .setBackground('#b7e1cd')
+    .setRanges([pdfRange])
+    .build();
+  
+  const pdfNoRule = SpreadsheetApp.newConditionalFormatRule()
+    .whenTextEqualTo("No")
+    .setBackground('#fce8b2')
+    .setRanges([pdfRange])
+    .build();
+  
+  // Apply the PDF rules
+  const finalRules = sheet.getConditionalFormatRules();
+  finalRules.push(pdfYesRule, pdfNoRule);
+  sheet.setConditionalFormatRules(finalRules);
 }
-
-
-function calculateFactorScores(answers, invertedQuestions) {
-  
-  const factorDefinitions = {
-    'CONSENSO': {
-      questions: Array.from({ length: 15 }, (_, i) => i + 1)
-    },
-    'SATISFACCION': {
-      questions: Array.from({ length: 15 }, (_, i) => i + 16)
-    },
-    'COHESION': {
-      questions: Array.from({ length: 15 }, (_, i) => i + 31)
-    },
-    'EXPRESION DE AFECTO': {
-      questions: Array.from({ length: 15 }, (_, i) => i + 46)
-    },
-    'CONEXION SEXUAL': {
-      questions: Array.from({ length: 15 }, (_, i) => i + 61)
-    }
-  };
-  
-  
-  const scores = {};
-  
-  for (const [factor, definition] of Object.entries(factorDefinitions)) {
-    let factorScore = 0;
-    let count = 0;
-    
-    for (const questionId of definition.questions) {
-      const answer = answers[questionId];
-      
-      if (answer) {
-        
-        factorScore += parseInt(answer);
-        count++;
-      }
-    }
-    
-    scores[factor] = {
-      score: factorScore,
-      count: count,
-      maxPossible: count * 4
-    };
-  }
-  
-  return scores;
-}
-
