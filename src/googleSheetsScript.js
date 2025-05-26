@@ -19,7 +19,13 @@ function doPost(e) {
     if (!sheet) {
       throw new Error(`Sheet ${data.sheetName} not found`);
     }
-
+    // Convert language code to full name
+    const languageMap = {
+      'es': 'español',
+      'pt': 'portugues',
+      'en': 'ingles'
+    };
+    
     // Prepare row data in the correct order
     const rowData = [
       new Date(),                                   // Fecha
