@@ -23,8 +23,6 @@ const transformPersonalInfo = (personalInfo: FormData['personalInfo']): FormData
     'ocupacion',
     'religion',
     'education',
-    'pais',
-    'ciudad',
     'maritalStatus',
     'timeAsCouple',
     'previousMarriages',
@@ -89,24 +87,18 @@ export const getFactorQuestions = (factor: Factor, language: Language): Question
   return questionList.filter(q => q.factor === factor);
 };
 
-// Get the appropriate Google Script URL based on language and environment
-const getGoogleScriptUrl = (language: Language): string => {
+// Get the Google Script URL for the unified sheet
+const getGoogleScriptUrl = (): string => {
   const environment = import.meta.env.VITE_ENVIRONMENT || 'production';
   const urls = {
-    es: {
-      production: import.meta.env.VITE_GOOGLE_SCRIPT_URL_ES_PRODUCTION,
-      testing: import.meta.env.VITE_GOOGLE_SCRIPT_URL_ES_TESTING
-    },
-    pt: {
-      production: import.meta.env.VITE_GOOGLE_SCRIPT_URL_PT_PRODUCTION,
-      testing: import.meta.env.VITE_GOOGLE_SCRIPT_URL_PT_TESTING
-    }
+    production: import.meta.env.VITE_GOOGLE_SCRIPT_URL_PRODUCTION,
+    testing: import.meta.env.VITE_GOOGLE_SCRIPT_URL_TESTING
   };
   
-  const url = urls[language][environment as 'production' | 'testing'];
+  const url = urls[environment as 'production' | 'testing'];
   
   if (!url) {
-    throw new Error(`Google Script URL not configured for ${language} in ${environment} mode`);
+    throw new Error(`Google Script URL not configured for ${environment} mode`);
   }
   
   return url;
@@ -114,8 +106,7 @@ const getGoogleScriptUrl = (language: Language): string => {
 
 export const submitToGoogleSheets = async (formData: FormData): Promise<boolean> => {
   try {
-    const { language } = formData;
-    const googleScriptUrl = getGoogleScriptUrl(language);
+    const googleScriptUrl = getGoogleScriptUrl();
     
     if (!googleScriptUrl) {
       console.error('Google Script URL is not configured');
@@ -127,10 +118,12 @@ export const submitToGoogleSheets = async (formData: FormData): Promise<boolean>
       ...formData,
       name: toTitleCase(formData.name),
       email: formData.email.toLowerCase(),
-      personalInfo: transformPersonalInfo(formData.personalInfo)
+      personalInfo: transformPersonalInfo(formData.personalInfo),
+      // Add sheet name based on spouse type
+      sheetName: formData.spouse === 'husband' ? 'Esposos' : 'Esposas'
     };
     
-    // Enviar datos a Google Sheets
+    // Send data to Google Sheets
     await fetch(googleScriptUrl, {
       method: 'POST',
       headers: {
