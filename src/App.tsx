@@ -161,7 +161,11 @@ function App() {
   const handleSelectCity = (city: string) => {
     setFormData(prev => ({
       ...prev,
-      remCity: city
+      remCity: city,
+      personalInfo: {
+        ...prev.personalInfo,
+        ciudad: city
+      }
     }));
     setShowCitySelector(false);
     setShowGenderSelector(true);
@@ -270,7 +274,14 @@ function App() {
   };
 
   const isPersonalInfoComplete = () => {
-    const requiredFields: (keyof PersonalInfo)[] = ['name', 'age', 'ocupacion', 'religion', 'pais', 'ciudad', 'spouseEmail'];
+    const requiredFields: (keyof PersonalInfo)[] = [
+      'name',
+      'age',
+      'ocupacion',
+      'religion',
+      'maritalStatus',
+      'spouseEmail'
+    ];
     const allRequiredFieldsFilled = requiredFields.every(field => formData.personalInfo[field]);
     const validMainEmail = formData.email && isValidEmail(formData.email);
     const validSpouseEmail = formData.personalInfo.spouseEmail && isValidEmail(formData.personalInfo.spouseEmail);
