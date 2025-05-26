@@ -44,7 +44,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({ onSelectLanguage })
                   className="w-24 h-auto rounded-md shadow-md"
                 />
               </div>
-              <p className="text-l font-medium text-center">{translations.spanish.es}</p>
+              <p className="text-let font-medium text-center">{translations.spanish.es}</p>
             </motion.div>
             
             <motion.div
