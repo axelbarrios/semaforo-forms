@@ -44,7 +44,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({ onSelectLanguage })
                   className="w-24 h-auto rounded-md shadow-md"
                 />
               </div>
-              <p className="text-xl font-medium text-center">{translations.spanish.es}</p>
+              <p className="text-l font-medium text-center">{translations.spanish.es}</p>
             </motion.div>
             
             <motion.div
@@ -60,7 +60,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({ onSelectLanguage })
                   className="w-24 h-auto rounded-md shadow-md"
                 />
               </div>
-              <p className="text-xl font-medium text-center">{translations.portuguese.es}</p>
+              <p className="text-l font-medium text-center">{translations.portuguese.es}</p>
             </motion.div>
 
             <motion.div
@@ -76,7 +76,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({ onSelectLanguage })
                   className="w-24 h-auto rounded-md shadow-md"
                 />
               </div>
-              <p className="text-xl font-medium text-center">{translations.english.es}</p>
+              <p className="text-l font-medium text-center">{translations.english.es}</p>
             </motion.div>
           </div>
         </div>
