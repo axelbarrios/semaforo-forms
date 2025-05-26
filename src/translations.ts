@@ -10,9 +10,9 @@ export const translations = {
     en: "Spanish"
   },
   portuguese: {
-    es: "Portugués",
+    es: "Português",
     pt: "Português",
-    en: "Portuguese"
+    en: "Português"
   },
   english: {
     es: "English",
