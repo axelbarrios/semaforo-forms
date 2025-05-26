@@ -318,5 +318,25 @@ export const translations = {
     es: "CONEXIÓN SEXUAL",
     pt: "CONEXÃO SEXUAL",
     en: "SEXUAL CONNECTION"
+  },
+  selectRemCity: {
+    es: "Seleccione su ciudad REM",
+    pt: "Selecione sua cidade REM",
+    en: "Select your REM city"
+  },
+  selectGender: {
+    es: "Seleccione su género",
+    pt: "Selecione seu gênero",
+    en: "Select your gender"
+  },
+  husband: {
+    es: "Esposo",
+    pt: "Marido",
+    en: "Husband"
+  },
+  wife: {
+    es: "Esposa",
+    pt: "Esposa",
+    en: "Wife"
   }
 };
