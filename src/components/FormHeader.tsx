@@ -56,7 +56,7 @@ const FormHeader: React.FC<FormHeaderProps> = ({ spouse, onToggleSpouse, showIns
           <div className="flex justify-between items-center mb-4 bg-[#2d2d2d] p-3 rounded-lg text-white">
            
             <div className="text-center flex-1">
-              
+            
               <p className="font-medium">{t('totallyAgree')</p>
             </div>
             <div className="text-center flex-1">
