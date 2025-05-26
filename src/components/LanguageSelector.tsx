@@ -26,7 +26,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({ onSelectLanguage })
         </div>
         
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold text-white mb-6">
+          <h2 className="text-xl font-bold text-white mb-6">
             {translations.selectLanguage.es} / {translations.selectLanguage.pt} / {translations.selectLanguage.en}
           </h2>
           
