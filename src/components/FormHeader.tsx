@@ -38,7 +38,7 @@ const FormHeader: React.FC<FormHeaderProps> = ({ spouse, onToggleSpouse, showIns
       
       <div className="flex justify-center items-center mb-4">
         <Heart className="text-red-500 w-8 h-8 mr-2" />
-        <h1 className="text-3xl font-bold text-white">{t('appTitle')}</h1><br>
+        <h1 className="text-3xl font-bold text-white">{t('appTitle')}</br>
          <h2 className="text-lg md:text-xl lg:text-2xl font-semibold mb-4 text-center">
           {spouse === 'husband' ? t('husbandForm') : t('wifeForm')}
         </h2>
