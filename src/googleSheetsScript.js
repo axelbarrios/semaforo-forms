@@ -212,3 +212,50 @@ function applyConditionalFormatting(sheet) {
   finalRules.push(pdfYesRule, pdfNoRule);
   sheet.setConditionalFormatRules(finalRules);
 }
+
+function calculateFactorScores(answers, invertedQuestions) {
+  
+  const factorDefinitions = {
+    'CONSENSO': {
+      questions: Array.from({ length: 15 }, (_, i) => i + 1)
+    },
+    'SATISFACCION': {
+      questions: Array.from({ length: 15 }, (_, i) => i + 16)
+    },
+    'COHESION': {
+      questions: Array.from({ length: 15 }, (_, i) => i + 31)
+    },
+    'EXPRESION DE AFECTO': {
+      questions: Array.from({ length: 15 }, (_, i) => i + 46)
+    },
+    'CONEXION SEXUAL': {
+      questions: Array.from({ length: 15 }, (_, i) => i + 61)
+    }
+  };
+  
+  
+  const scores = {};
+  
+  for (const [factor, definition] of Object.entries(factorDefinitions)) {
+    let factorScore = 0;
+    let count = 0;
+    
+    for (const questionId of definition.questions) {
+      const answer = answers[questionId];
+      
+      if (answer) {
+        
+        factorScore += parseInt(answer);
+        count++;
+      }
+    }
+    
+    scores[factor] = {
+      score: factorScore,
+      count: count,
+      maxPossible: count * 4
+    };
+  }
+  
+  return scores;
+}
