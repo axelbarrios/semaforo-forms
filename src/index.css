@@ -122,6 +122,13 @@ body {
   transform: scale(1.3);
 }
 
+/* Add padding for select elements to prevent arrow from touching the edge */
+select {
+  padding-right: 2.5rem !important;
+  background-position: right 0.75rem center !important;
+  background-size: 1.5em 1.5em !important;
+}
+
 @media (max-width: 768px) {
   .radio-container {
     flex-direction: column;
