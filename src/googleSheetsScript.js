@@ -37,17 +37,8 @@ function doPost(e) {
       rowData.push(data.answers[i] || '');
     }
 
-    // Calculate factor scores with inverted questions
-    const factorScores = calculateFactorScores(data.answers);
-    
-    // Add factor totals
+    // Add default values for PDF columns
     rowData.push(
-      factorScores.CONSENSO.score,           // CONSENSO total
-      factorScores.SATISFACCION.score,       // SATISFACCION total
-      factorScores.COHESION.score,           // COHESION total
-      factorScores['EXPRESION DE AFECTO'].score, // EXPRESION DE AFECTO total
-      factorScores['CONEXION SEXUAL'].score, // CONEXION SEXUAL total
-      Object.values(factorScores).reduce((total, factor) => total + factor.score, 0), // TOTAL general
       'No',                           // PDF_Generado
       ''                              // ID_PDF
     );
@@ -138,53 +129,6 @@ function doGet(e) {
 function applyConditionalFormatting(sheet) {
   const lastColumn = sheet.getLastColumn();
   
-  // Define the columns for factor scores
-  const factorColumns = [
-    lastColumn - 7, // CONSENSO
-    lastColumn - 6, // SATISFACCION
-    lastColumn - 5, // COHESION
-    lastColumn - 4, // EXPRESION DE AFECTO
-    lastColumn - 3, // CONEXION SEXUAL
-    lastColumn - 2  // TOTAL
-  ];
-  
-  // Apply formatting rules for each factor column
-  factorColumns.forEach(column => {
-    const range = sheet.getRange(2, column, sheet.getMaxRows() - 1, 1);
-    
-    // Clear existing rules for this range
-    const rules = sheet.getConditionalFormatRules();
-    const newRules = rules.filter(rule => {
-      const ranges = rule.getRanges();
-      return !ranges.some(r => r.getA1Notation() === range.getA1Notation());
-    });
-    sheet.setConditionalFormatRules(newRules);
-    
-    // Add new rules
-    const greenRule = SpreadsheetApp.newConditionalFormatRule()
-      .whenNumberGreaterThan(50)
-      .setBackground('#b7e1cd')
-      .setRanges([range])
-      .build();
-    
-    const yellowRule = SpreadsheetApp.newConditionalFormatRule()
-      .whenNumberBetween(30, 50)
-      .setBackground('#fce8b2')
-      .setRanges([range])
-      .build();
-    
-    const redRule = SpreadsheetApp.newConditionalFormatRule()
-      .whenNumberLessThan(30)
-      .setBackground('#f4c7c3')
-      .setRanges([range])
-      .build();
-    
-    // Apply the new rules
-    const updatedRules = sheet.getConditionalFormatRules();
-    updatedRules.push(greenRule, yellowRule, redRule);
-    sheet.setConditionalFormatRules(updatedRules);
-  });
-  
   // Format PDF Generated column
   const pdfGeneratedColumn = lastColumn - 1;
   const pdfRange = sheet.getRange(2, pdfGeneratedColumn, sheet.getMaxRows() - 1, 1);
@@ -214,55 +158,4 @@ function applyConditionalFormatting(sheet) {
   const finalRules = sheet.getConditionalFormatRules();
   finalRules.push(pdfYesRule, pdfNoRule);
   sheet.setConditionalFormatRules(finalRules);
-}
-
-function calculateFactorScores(answers) {
-  // Lista de preguntas con puntuación invertida
-  const invertedQuestions = [1, 2, 3, 4, 6, 7, 10, 19, 21, 30, 31, 33, 45, 49, 50, 52, 63, 65, 66, 68, 75];
-  
-  const factorDefinitions = {
-    'CONSENSO': {
-      questions: Array.from({ length: 15 }, (_, i) => i + 1)
-    },
-    'SATISFACCION': {
-      questions: Array.from({ length: 15 }, (_, i) => i + 16)
-    },
-    'COHESION': {
-      questions: Array.from({ length: 15 }, (_, i) => i + 31)
-    },
-    'EXPRESION DE AFECTO': {
-      questions: Array.from({ length: 15 }, (_, i) => i + 46)
-    },
-    'CONEXION SEXUAL': {
-      questions: Array.from({ length: 15 }, (_, i) => i + 61)
-    }
-  };
-  
-  const scores = {};
-  
-  for (const [factor, definition] of Object.entries(factorDefinitions)) {
-    let factorScore = 0;
-    let count = 0;
-    
-    for (const questionId of definition.questions) {
-      const answer = answers[questionId];
-      
-      if (answer) {
-        // Check if the question should be scored in reverse
-        const isInverted = invertedQuestions.includes(questionId);
-        const adjustedValue = isInverted ? 5 - parseInt(answer) : parseInt(answer);
-        
-        factorScore += adjustedValue;
-        count++;
-      }
-    }
-    
-    scores[factor] = {
-      score: factorScore,
-      count: count,
-      maxPossible: count * 4
-    };
-  }
-  
-  return scores;
 }
