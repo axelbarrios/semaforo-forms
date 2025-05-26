@@ -5,7 +5,7 @@ import { Language } from '../types';
 import { translations } from '../translations';
 
 interface CitySelectorProps {
-  onSelectCity: (city: string) => void;
+  onSelectCity: (city: string, country: string) => void;
   language?: Language;
 }
 
@@ -16,6 +16,13 @@ const CitySelector: React.FC<CitySelectorProps> = ({ onSelectCity, language = 'e
   const handleCountryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const country = event.target.value;
     setSelectedCountry(country);
+  };
+
+  const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const city = event.target.value;
+    if (city && selectedCountry) {
+      onSelectCity(city, selectedCountry);
+    }
   };
 
   return (
@@ -57,7 +64,7 @@ const CitySelector: React.FC<CitySelectorProps> = ({ onSelectCity, language = 'e
             {/* City Selection */}
             <div>
               <select
-                onChange={(e) => onSelectCity(e.target.value)}
+                onChange={handleCityChange}
                 disabled={!selectedCountry}
                 className="w-full p-3 bg-[#1f1f1f] text-white rounded-lg border border-gray-600 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
               >
