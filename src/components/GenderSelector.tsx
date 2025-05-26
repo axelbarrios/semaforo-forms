@@ -1,12 +1,17 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { User, UserRound } from 'lucide-react';
+import { Language } from '../types';
+import { translations } from '../translations';
 
 interface GenderSelectorProps {
   onSelectGender: (gender: 'husband' | 'wife') => void;
+  language?: Language;
 }
 
-const GenderSelector: React.FC<GenderSelectorProps> = ({ onSelectGender }) => {
+const GenderSelector: React.FC<GenderSelectorProps> = ({ onSelectGender, language = 'es' }) => {
+  const t = (key: string) => translations[key][language];
+
   return (
     <div className="flex items-center justify-center min-h-screen absolute inset-0">
       <motion.div
@@ -15,7 +20,6 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({ onSelectGender }) => {
         transition={{ duration: 0.5 }}
         className="bg-[#2d2d2d] p-8 rounded-lg shadow-lg max-w-2xl mx-auto text-white"
       >
-        {/* Logo REM */}
         <div className="flex justify-center mb-6">
           <img 
             src="https://matrimoniosrem.com/wp-content/uploads/2021/07/REM_NUEVO-04-2048x825.png" 
@@ -25,7 +29,7 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({ onSelectGender }) => {
         </div>
         
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold text-white mb-6">Seleccione su género</h2>
+          <h2 className="text-2xl font-bold text-white mb-6">{t('selectGender')}</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <motion.div
@@ -37,7 +41,7 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({ onSelectGender }) => {
               <div className="flex justify-center mb-4">
                 <User className="w-16 h-16 text-blue-500" />
               </div>
-              <p className="text-xl font-medium">Esposo</p>
+              <p className="text-xl font-medium">{t('husband')}</p>
             </motion.div>
             
             <motion.div
@@ -49,7 +53,7 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({ onSelectGender }) => {
               <div className="flex justify-center mb-4">
                 <UserRound className="w-16 h-16 text-pink-500" />
               </div>
-              <p className="text-xl font-medium">Esposa</p>
+              <p className="text-xl font-medium">{t('wife')}</p>
             </motion.div>
           </div>
         </div>

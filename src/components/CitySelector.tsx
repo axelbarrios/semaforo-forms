@@ -1,12 +1,17 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { remCities } from '../config/cities';
+import { Language } from '../types';
+import { translations } from '../translations';
 
 interface CitySelectorProps {
   onSelectCity: (city: string) => void;
+  language?: Language;
 }
 
-const CitySelector: React.FC<CitySelectorProps> = ({ onSelectCity }) => {
+const CitySelector: React.FC<CitySelectorProps> = ({ onSelectCity, language = 'es' }) => {
+  const t = (key: string) => translations[key][language];
+
   return (
     <div className="flex items-center justify-center min-h-screen absolute inset-0">
       <motion.div
@@ -15,7 +20,6 @@ const CitySelector: React.FC<CitySelectorProps> = ({ onSelectCity }) => {
         transition={{ duration: 0.5 }}
         className="bg-[#2d2d2d] p-8 rounded-lg shadow-lg max-w-2xl mx-auto text-white"
       >
-        {/* Logo REM */}
         <div className="flex justify-center mb-6">
           <img 
             src="https://matrimoniosrem.com/wp-content/uploads/2021/07/REM_NUEVO-04-2048x825.png" 
@@ -25,14 +29,14 @@ const CitySelector: React.FC<CitySelectorProps> = ({ onSelectCity }) => {
         </div>
         
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold text-white mb-6">Seleccione su ciudad REM</h2>
+          <h2 className="text-2xl font-bold text-white mb-6">{t('selectRemCity')}</h2>
           
           <div className="max-w-md mx-auto">
             <select
               onChange={(e) => onSelectCity(e.target.value)}
               className="w-full p-3 bg-[#1f1f1f] text-white rounded-lg border border-gray-600 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             >
-              <option value="">Seleccione una ciudad</option>
+              <option value="">{t('selectCity')}</option>
               {remCities.map((city) => (
                 <option key={city} value={city}>
                   {city}
