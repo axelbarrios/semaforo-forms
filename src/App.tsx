@@ -23,7 +23,6 @@ function App() {
     language: 'es',
     remCity: '',
     personalInfo: {
-      date: new Date().toISOString().split('T')[0],
       name: '',
       age: '',
       ocupacion: '',
@@ -241,7 +240,6 @@ function App() {
       language: 'es',
       remCity: '',
       personalInfo: {
-        date: new Date().toISOString().split('T')[0],
         name: '',
         age: '',
         ocupacion: '',

@@ -13,7 +13,6 @@ export type Factor =
   | 'CONEXION SEXUAL';
 
 export interface PersonalInfo {
-  date: string;
   name: string;
   age: string;
   ocupacion: string;

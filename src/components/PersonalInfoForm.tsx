@@ -33,13 +33,12 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
   };
   
   const formFields = [
-    { id: 'date', label: t('date'), type: 'date', required: true },
     { id: 'name', label: t('fullName'), type: 'text', required: true },
     { id: 'age', label: t('age'), type: 'text', required: true },
     { id: 'ocupacion', label: t('occupation'), type: 'text', required: true },
     { id: 'religion', label: t('religion'), type: 'text', required: true },
     { id: 'education', label: t('education'), type: 'text', required: false },
-    { id: 'maritalStatus', label: t('maritalStatus'), type: 'text', required: false },
+    { id: 'maritalStatus', label: t('maritalStatus'), type: 'text', required: true },
     { id: 'timeAsCouple', label: t('timeAsCouple'), type: 'text', required: false },
     { id: 'previousMarriages', label: t('previousMarriages'), type: 'text', required: false },
     { id: 'numberOfChildren', label: t('numberOfChildren'), type: 'text', required: false },
