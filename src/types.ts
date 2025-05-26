@@ -32,7 +32,8 @@ export interface FormData {
   spouse: 'husband' | 'wife';
   name: string;
   email: string;
-  language: 'es' | 'pt';
+  language: 'es' | 'pt' | 'en';
+  remCity: string;
   personalInfo: PersonalInfo;
   answers: Record<number, number>;
 }
@@ -44,11 +45,12 @@ export interface FactorScore {
   percentage: number;
 }
 
-export type Language = 'es' | 'pt';
+export type Language = 'es' | 'pt' | 'en';
 
 export interface Translations {
   [key: string]: {
     es: string;
     pt: string;
+    en: string;
   };
 }

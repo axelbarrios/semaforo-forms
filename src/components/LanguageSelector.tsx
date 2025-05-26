@@ -26,9 +26,11 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({ onSelectLanguage })
         </div>
         
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold text-white mb-6">{translations.selectLanguage.es} / {translations.selectLanguage.pt}</h2>
+          <h2 className="text-2xl font-bold text-white mb-6">
+            {translations.selectLanguage.es} / {translations.selectLanguage.pt} / {translations.selectLanguage.en}
+          </h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -59,6 +61,22 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({ onSelectLanguage })
                 />
               </div>
               <p className="text-xl font-medium text-center">{translations.portuguese.es}</p>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-[#1f1f1f] p-6 rounded-lg cursor-pointer hover:bg-[#333333] transition-colors"
+              onClick={() => onSelectLanguage('en')}
+            >
+              <div className="flex justify-center mb-4">
+                <img 
+                  src="https://flagcdn.com/w320/us.png" 
+                  alt="United States Flag" 
+                  className="w-24 h-auto rounded-md shadow-md"
+                />
+              </div>
+              <p className="text-xl font-medium text-center">{translations.english.es}</p>
             </motion.div>
           </div>
         </div>
