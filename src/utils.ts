@@ -44,6 +44,65 @@ const transformPersonalInfo = (personalInfo: FormData['personalInfo']): FormData
   return transformed;
 };
 
+// Get the Google Script URL for the unified sheet
+const getGoogleScriptUrl = (): string => {
+  const environment = import.meta.env.VITE_ENVIRONMENT || 'production';
+  const urls = {
+    production: import.meta.env.VITE_GOOGLE_SCRIPT_URL_PRODUCTION,
+    testing: import.meta.env.VITE_GOOGLE_SCRIPT_URL_TESTING
+  };
+  
+  const url = urls[environment as 'production' | 'testing'];
+  
+  if (!url) {
+    throw new Error(`Google Script URL not configured for ${environment} mode`);
+  }
+  
+  return url;
+};
+
+export const submitToGoogleSheets = async (formData: FormData): Promise<boolean> => {
+  try {
+    const googleScriptUrl = getGoogleScriptUrl();
+    
+    if (!googleScriptUrl) {
+      console.error('Google Script URL is not configured');
+      return false;
+    }
+    
+    // Transform the data before sending
+    const transformedData = {
+      ...formData,
+      name: toTitleCase(formData.name),
+      email: formData.email.toLowerCase(),
+      personalInfo: transformPersonalInfo(formData.personalInfo),
+      // Add sheet name based on spouse type
+      sheetName: formData.spouse === 'husband' ? 'Esposos' : 'Esposas'
+    };
+    
+    // Send data to Google Sheets
+    await fetch(googleScriptUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(transformedData),
+      mode: 'no-cors'
+    });
+    
+    return true;
+    
+  } catch (error) {
+    console.error('Error al enviar datos a Google Sheets:', error);
+    return false;
+  }
+};
+
+export const getFactorQuestions = (factor: Factor, language: Language): Question[] => {
+  const questionList = language === 'es' ? questions : questions_pt;
+  return questionList.filter(q => q.factor === factor);
+};
+
 export const calculateScore = (formData: FormData): FactorScore[] => {
   const factorScores: Record<Factor, { score: number; count: number }> = {
     'CONSENSO': { score: 0, count: 0 },
@@ -76,80 +135,4 @@ export const calculateScore = (formData: FormData): FactorScore[] => {
     maxPossible: 0, // Not needed for Google Sheets submission
     percentage: 0 // Not needed for Google Sheets submission
   }));
-};
-
-export const getFactorQuestions = (factor: Factor, language: Language): Question[] => {
-  const questionList = language === 'es' ? questions : questions_pt;
-  return questionList.filter(q => q.factor === factor);
-};
-
-// Get the Google Script URL for the unified sheet
-const getGoogleScriptUrl = (): string => {
-  const environment = import.meta.env.VITE_ENVIRONMENT || 'production';
-  const urls = {
-    production: import.meta.env.VITE_GOOGLE_SCRIPT_URL_PRODUCTION,
-    testing: import.meta.env.VITE_GOOGLE_SCRIPT_URL_TESTING
-  };
-  
-  const url = urls[environment as 'production' | 'testing'];
-  
-  if (!url) {
-    throw new Error(`Google Script URL not configured for ${environment} mode`);
-  }
-  
-  return url;
-};
-
-export const submitToGoogleSheets = async (formData: FormData): Promise<boolean> => {
-  try {
-    const googleScriptUrl = getGoogleScriptUrl();
-    
-    if (!googleScriptUrl) {
-      console.error('Google Script URL is not configured');
-      return false;
-    }
-
-    // Calculate factor scores
-    const factorScores = calculateScore(formData);
-    const factorTotals = factorScores.reduce((acc, curr) => {
-      acc[curr.factor] = curr.score;
-      return acc;
-    }, {} as Record<Factor, number>);
-
-    // Calculate total score
-    const totalScore = factorScores.reduce((total, factor) => total + factor.score, 0);
-    
-    // Transform the data before sending
-    const transformedData = {
-      ...formData,
-      name: toTitleCase(formData.name),
-      email: formData.email.toLowerCase(),
-      personalInfo: transformPersonalInfo(formData.personalInfo),
-      // Add sheet name based on spouse type
-      sheetName: formData.spouse === 'husband' ? 'Esposos' : 'Esposas',
-      // Add factor scores
-      CONSENSO: factorTotals['CONSENSO'],
-      SATISFACCION: factorTotals['SATISFACCION'],
-      COHESION: factorTotals['COHESION'],
-      'EXPRESION DE AFECTO': factorTotals['EXPRESION DE AFECTO'],
-      'CONEXION SEXUAL': factorTotals['CONEXION SEXUAL'],
-      TOTAL: totalScore
-    };
-    
-    // Send data to Google Sheets
-    await fetch(googleScriptUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(transformedData),
-      mode: 'no-cors'
-    });
-    
-    return true;
-    
-  } catch (error) {
-    console.error('Error al enviar datos a Google Sheets:', error);
-    return false;
-  }
 };
