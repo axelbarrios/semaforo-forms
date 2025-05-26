@@ -157,13 +157,14 @@ function App() {
     setShowCitySelector(true);
   };
 
-  const handleSelectCity = (city: string) => {
+  const handleSelectCity = (city: string, country: string) => {
     setFormData(prev => ({
       ...prev,
       remCity: city,
       personalInfo: {
         ...prev.personalInfo,
-        ciudad: city
+        ciudad: city,
+        pais: country
       }
     }));
     setShowCitySelector(false);
