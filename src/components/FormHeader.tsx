@@ -51,13 +51,13 @@ const FormHeader: React.FC<FormHeaderProps> = ({ spouse, onToggleSpouse, showIns
         </h2>
         
         //<div className="flex justify-center">
-          <button 
-            onClick={onToggleSpouse}
-            className="text-indigo-300 hover:text-indigo-200 underline transition-colors"
-          >
-            {spouse === 'husband' ? t('switchToWife') : t('switchToHusband')}
-          </button>
-        </div>
+        //<button
+           // onClick={onToggleSpouse}
+           // className="text-indigo-300 hover:text-indigo-200 underline transition-colors"
+          //>
+           // {spouse === 'husband' ? t('switchToWife') : t('switchToHusband')}>
+         // </button>
+        //</div>
       </div>
       
       {showInstructions && (
