@@ -15,8 +15,8 @@ export const translations = {
     en: "Portuguese"
   },
   english: {
-    es: "Inglés",
-    pt: "Inglês",
+    es: "English",
+    pt: "English",
     en: "English"
   },
   appTitle: {
