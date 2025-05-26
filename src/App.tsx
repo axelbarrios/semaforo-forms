@@ -11,6 +11,8 @@ import SubmitSuccess from './components/SubmitSuccess';
 import Welcome from './components/Welcome';
 import LanguageSelector from './components/LanguageSelector';
 import StickyHeader from './components/StickyHeader';
+import CitySelector from './components/CitySelector';
+import GenderSelector from './components/GenderSelector';
 import { translations } from './translations';
 
 function App() {
@@ -19,6 +21,7 @@ function App() {
     name: '',
     email: '',
     language: 'es',
+    remCity: '',
     personalInfo: {
       date: new Date().toISOString().split('T')[0],
       name: '',
@@ -43,7 +46,9 @@ function App() {
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [scores, setScores] = useState<FactorScore[]>([]);
   const [showPersonalInfo, setShowPersonalInfo] = useState<boolean>(true);
-  const [showLanguageSelector, setShowLanguageSelector] = useState<boolean>(true);
+  const [showCitySelector, setShowCitySelector] = useState<boolean>(true);
+  const [showGenderSelector, setShowGenderSelector] = useState<boolean>(false);
+  const [showLanguageSelector, setShowLanguageSelector] = useState<boolean>(false);
   const [showStickyHeader, setShowStickyHeader] = useState<boolean>(false);
   
   const factors: Factor[] = [
@@ -69,12 +74,11 @@ function App() {
     return translations[key][formData.language];
   };
   
-  // Handle scroll for sticky header
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       const windowHeight = window.innerHeight;
-      const scrollThreshold = windowHeight * 0.25; // 25% of viewport height
+      const scrollThreshold = windowHeight * 0.25;
       
       setShowStickyHeader(scrollPosition > scrollThreshold);
     };
@@ -83,18 +87,15 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   
-  // Email validation function
   const isValidEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
   
-  // Función para hacer scroll hacia arriba
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   
-  // Efecto para hacer scroll hacia arriba cuando cambia el paso del formulario o el factor
   useEffect(() => {
     scrollToTop();
   }, [currentFormStep, currentStep]);
@@ -133,7 +134,6 @@ function App() {
       }
     }));
     
-    // Si el campo es 'name', actualizar también el nombre principal
     if (field === 'name') {
       setFormData(prev => ({
         ...prev,
@@ -147,6 +147,26 @@ function App() {
       ...prev,
       spouse: prev.spouse === 'husband' ? 'wife' : 'husband',
     }));
+  };
+
+  const handleSelectCity = (city: string) => {
+    if (city) {
+      setFormData(prev => ({
+        ...prev,
+        remCity: city
+      }));
+      setShowCitySelector(false);
+      setShowGenderSelector(true);
+    }
+  };
+
+  const handleSelectGender = (gender: 'husband' | 'wife') => {
+    setFormData(prev => ({
+      ...prev,
+      spouse: gender
+    }));
+    setShowGenderSelector(false);
+    setShowLanguageSelector(true);
   };
   
   const handleSelectLanguage = (language: Language) => {
@@ -217,6 +237,7 @@ function App() {
       name: '',
       email: '',
       language: 'es',
+      remCity: '',
       personalInfo: {
         date: new Date().toISOString().split('T')[0],
         name: '',
@@ -239,17 +260,17 @@ function App() {
     setIsSubmitted(false);
     setScores([]);
     setShowPersonalInfo(true);
-    setShowLanguageSelector(true);
+    setShowCitySelector(true);
+    setShowGenderSelector(false);
+    setShowLanguageSelector(false);
     scrollToTop();
   };
   
-  // Check if all questions for current factor are answered
   const isCurrentFactorComplete = () => {
     const factorQuestions = questions.filter(q => q.factor === currentFactor);
     return factorQuestions.every(q => formData.answers[q.id] !== undefined);
   };
   
-  // Check if personal info form is complete with valid emails
   const isPersonalInfoComplete = () => {
     const requiredFields: (keyof PersonalInfo)[] = ['name', 'age', 'ocupacion', 'religion', 'pais', 'ciudad', 'spouseEmail'];
     const allRequiredFieldsFilled = requiredFields.every(field => formData.personalInfo[field]);
@@ -260,6 +281,14 @@ function App() {
   };
   
   const renderCurrentStep = () => {
+    if (showCitySelector) {
+      return <CitySelector onSelectCity={handleSelectCity} />;
+    }
+
+    if (showGenderSelector) {
+      return <GenderSelector onSelectGender={handleSelectGender} />;
+    }
+
     if (showLanguageSelector) {
       return <LanguageSelector onSelectLanguage={handleSelectLanguage} />;
     }
@@ -282,7 +311,6 @@ function App() {
       );
     }
     
-    // Questions section
     return (
       <>
         {!showStickyHeader && (
@@ -314,8 +342,8 @@ function App() {
   };
   
   return (
-    <div className={`min-h-screen bg-[#3F3F3F] py-8 px-4 ${showLanguageSelector ? 'p-0' : ''}`}>
-      {!showLanguageSelector && !isSubmitted && currentFormStep === 2 && (
+    <div className={`min-h-screen bg-[#3F3F3F] py-8 px-4 ${showLanguageSelector || showCitySelector || showGenderSelector ? 'p-0' : ''}`}>
+      {!showCitySelector && !showGenderSelector && !showLanguageSelector && !isSubmitted && currentFormStep === 2 && (
         <StickyHeader 
           spouse={formData.spouse}
           language={formData.language}
@@ -327,8 +355,8 @@ function App() {
       )}
       
       {!isSubmitted ? (
-        <div className={`${showLanguageSelector ? '' : 'form-container'}`}>
-          {!showLanguageSelector && (
+        <div className={`${showLanguageSelector || showCitySelector || showGenderSelector ? '' : 'form-container'}`}>
+          {!showLanguageSelector && !showCitySelector && !showGenderSelector && (
             <FormHeader 
               spouse={formData.spouse} 
               onToggleSpouse={handleToggleSpouse} 
@@ -339,8 +367,7 @@ function App() {
           
           {renderCurrentStep()}
           
-          {/* Navigation buttons */}
-          {currentFormStep > 0 && !showLanguageSelector && (
+          {currentFormStep > 0 && !showLanguageSelector && !showCitySelector && !showGenderSelector && (
             <div className="form-footer">
               <button
                 onClick={handlePrevious}
