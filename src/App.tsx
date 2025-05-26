@@ -39,18 +39,18 @@ function App() {
     },
     answers: {},
   });
-  
+
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [currentFormStep, setCurrentFormStep] = useState<number>(0);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [scores, setScores] = useState<FactorScore[]>([]);
   const [showPersonalInfo, setShowPersonalInfo] = useState<boolean>(true);
-  const [showCitySelector, setShowCitySelector] = useState<boolean>(true);
+  const [showLanguageSelector, setShowLanguageSelector] = useState<boolean>(true);
+  const [showCitySelector, setShowCitySelector] = useState<boolean>(false);
   const [showGenderSelector, setShowGenderSelector] = useState<boolean>(false);
-  const [showLanguageSelector, setShowLanguageSelector] = useState<boolean>(false);
   const [showStickyHeader, setShowStickyHeader] = useState<boolean>(false);
-  
+
   const factors: Factor[] = [
     'CONSENSO',
     'SATISFACCION',
@@ -58,14 +58,14 @@ function App() {
     'EXPRESION DE AFECTO',
     'CONEXION SEXUAL',
   ];
-  
+
   const totalSteps = factors.length;
   const currentFactor = factors[currentStep];
-  
+
   const answeredQuestions = Object.keys(formData.answers).length;
   const totalQuestions = questions.length;
   const progress = answeredQuestions / totalQuestions;
-  
+
   const t = (key: string) => {
     if (!translations[key]) {
       console.warn(`Missing translation key: ${key}`);
@@ -73,33 +73,33 @@ function App() {
     }
     return translations[key][formData.language];
   };
-  
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       const windowHeight = window.innerHeight;
       const scrollThreshold = windowHeight * 0.25;
-      
+
       setShowStickyHeader(scrollPosition > scrollThreshold);
     };
-    
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  
+
   const isValidEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
-  
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-  
+
   useEffect(() => {
     scrollToTop();
   }, [currentFormStep, currentStep]);
-  
+
   const handleAnswerChange = (id: number, value: number) => {
     setFormData(prev => ({
       ...prev,
@@ -109,7 +109,7 @@ function App() {
       },
     }));
   };
-  
+
   const handleNameChange = (name: string) => {
     setFormData(prev => ({ 
       ...prev, 
@@ -120,11 +120,11 @@ function App() {
       }
     }));
   };
-  
+
   const handleEmailChange = (email: string) => {
     setFormData(prev => ({ ...prev, email }));
   };
-  
+
   const handlePersonalInfoChange = (field: keyof PersonalInfo, value: string) => {
     setFormData(prev => ({
       ...prev,
@@ -133,7 +133,7 @@ function App() {
         [field]: value
       }
     }));
-    
+
     if (field === 'name') {
       setFormData(prev => ({
         ...prev,
@@ -141,7 +141,7 @@ function App() {
       }));
     }
   };
-  
+
   const handleToggleSpouse = () => {
     setFormData(prev => ({
       ...prev,
@@ -149,15 +149,22 @@ function App() {
     }));
   };
 
+  const handleSelectLanguage = (language: Language) => {
+    setFormData(prev => ({
+      ...prev,
+      language
+    }));
+    setShowLanguageSelector(false);
+    setShowCitySelector(true);
+  };
+
   const handleSelectCity = (city: string) => {
-    if (city) {
-      setFormData(prev => ({
-        ...prev,
-        remCity: city
-      }));
-      setShowCitySelector(false);
-      setShowGenderSelector(true);
-    }
+    setFormData(prev => ({
+      ...prev,
+      remCity: city
+    }));
+    setShowCitySelector(false);
+    setShowGenderSelector(true);
   };
 
   const handleSelectGender = (gender: 'husband' | 'wife') => {
@@ -166,30 +173,21 @@ function App() {
       spouse: gender
     }));
     setShowGenderSelector(false);
-    setShowLanguageSelector(true);
-  };
-  
-  const handleSelectLanguage = (language: Language) => {
-    setFormData(prev => ({
-      ...prev,
-      language
-    }));
-    setShowLanguageSelector(false);
     setCurrentFormStep(0);
   };
-  
+
   const handleNext = () => {
     if (currentFormStep < 2) {
       setCurrentFormStep(prev => prev + 1);
       setCurrentStep(0);
       return;
     }
-    
+
     if (currentStep < totalSteps - 1) {
       setCurrentStep(prev => prev + 1);
     }
   };
-  
+
   const handlePrevious = () => {
     if (currentStep > 0) {
       setCurrentStep(prev => prev - 1);
@@ -198,23 +196,23 @@ function App() {
       setShowPersonalInfo(true);
     }
   };
-  
+
   const handleSubmit = async () => {
     if (!formData.email || !isValidEmail(formData.email)) {
       alert(t('invalidEmailAlert'));
       return;
     }
-    
+
     if (!formData.personalInfo.spouseEmail || !isValidEmail(formData.personalInfo.spouseEmail)) {
       alert(t('invalidSpouseEmailAlert'));
       return;
     }
-    
+
     setIsSubmitting(true);
-    
+
     try {
       const success = await submitToGoogleSheets(formData);
-      
+
       if (success) {
         const calculatedScores = calculateScore(formData);
         setScores(calculatedScores);
@@ -230,7 +228,7 @@ function App() {
       setIsSubmitting(false);
     }
   };
-  
+
   const handleReset = () => {
     setFormData({
       spouse: 'husband',
@@ -260,43 +258,43 @@ function App() {
     setIsSubmitted(false);
     setScores([]);
     setShowPersonalInfo(true);
-    setShowCitySelector(true);
+    setShowLanguageSelector(true);
+    setShowCitySelector(false);
     setShowGenderSelector(false);
-    setShowLanguageSelector(false);
     scrollToTop();
   };
-  
+
   const isCurrentFactorComplete = () => {
     const factorQuestions = questions.filter(q => q.factor === currentFactor);
     return factorQuestions.every(q => formData.answers[q.id] !== undefined);
   };
-  
+
   const isPersonalInfoComplete = () => {
     const requiredFields: (keyof PersonalInfo)[] = ['name', 'age', 'ocupacion', 'religion', 'pais', 'ciudad', 'spouseEmail'];
     const allRequiredFieldsFilled = requiredFields.every(field => formData.personalInfo[field]);
     const validMainEmail = formData.email && isValidEmail(formData.email);
     const validSpouseEmail = formData.personalInfo.spouseEmail && isValidEmail(formData.personalInfo.spouseEmail);
-    
+
     return allRequiredFieldsFilled && validMainEmail && validSpouseEmail;
   };
-  
+
   const renderCurrentStep = () => {
-    if (showCitySelector) {
-      return <CitySelector onSelectCity={handleSelectCity} />;
-    }
-
-    if (showGenderSelector) {
-      return <GenderSelector onSelectGender={handleSelectGender} />;
-    }
-
     if (showLanguageSelector) {
       return <LanguageSelector onSelectLanguage={handleSelectLanguage} />;
     }
-    
+
+    if (showCitySelector) {
+      return <CitySelector onSelectCity={handleSelectCity} language={formData.language} />;
+    }
+
+    if (showGenderSelector) {
+      return <GenderSelector onSelectGender={handleSelectGender} language={formData.language} />;
+    }
+
     if (currentFormStep === 0) {
       return <Welcome onNext={handleNext} language={formData.language} />;
     }
-    
+
     if (currentFormStep === 1) {
       return (
         <PersonalInfoForm 
@@ -310,7 +308,7 @@ function App() {
         />
       );
     }
-    
+
     return (
       <>
         {!showStickyHeader && (
@@ -320,7 +318,7 @@ function App() {
             language={formData.language} 
           />
         )}
-        
+
         <AnimatePresence mode="wait">
           <motion.div
             key={currentStep}
@@ -340,10 +338,10 @@ function App() {
       </>
     );
   };
-  
+
   return (
     <div className={`min-h-screen bg-[#3F3F3F] py-8 px-4 ${showLanguageSelector || showCitySelector || showGenderSelector ? 'p-0' : ''}`}>
-      {!showCitySelector && !showGenderSelector && !showLanguageSelector && !isSubmitted && currentFormStep === 2 && (
+      {!showLanguageSelector && !showCitySelector && !showGenderSelector && !isSubmitted && currentFormStep === 2 && (
         <StickyHeader 
           spouse={formData.spouse}
           language={formData.language}
@@ -353,7 +351,7 @@ function App() {
           currentFactor={currentFactor}
         />
       )}
-      
+
       {!isSubmitted ? (
         <div className={`${showLanguageSelector || showCitySelector || showGenderSelector ? '' : 'form-container'}`}>
           {!showLanguageSelector && !showCitySelector && !showGenderSelector && (
@@ -364,9 +362,9 @@ function App() {
               language={formData.language}
             />
           )}
-          
+
           {renderCurrentStep()}
-          
+
           {currentFormStep > 0 && !showLanguageSelector && !showCitySelector && !showGenderSelector && (
             <div className="form-footer">
               <button
@@ -376,7 +374,7 @@ function App() {
               >
                 {t('previous')}
               </button>
-              
+
               {(currentFormStep < 2 || currentStep < totalSteps - 1) ? (
                 <button
                   onClick={handleNext}
