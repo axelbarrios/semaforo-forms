@@ -37,14 +37,17 @@ function doPost(e) {
       rowData.push(data.answers[i] || '');
     }
 
+    // Calculate factor scores with inverted questions
+    const factorScores = calculateFactorScores(data.answers);
+    
     // Add factor totals
     rowData.push(
-      data.CONSENSO,                   // CONSENSO total
-      data.SATISFACCION,              // SATISFACCION total
-      data.COHESION,                  // COHESION total
-      data['EXPRESION DE AFECTO'],    // EXPRESION DE AFECTO total
-      data['CONEXION SEXUAL'],        // CONEXION SEXUAL total
-      data.TOTAL,                     // TOTAL general
+      factorScores.CONSENSO.score,           // CONSENSO total
+      factorScores.SATISFACCION.score,       // SATISFACCION total
+      factorScores.COHESION.score,           // COHESION total
+      factorScores['EXPRESION DE AFECTO'].score, // EXPRESION DE AFECTO total
+      factorScores['CONEXION SEXUAL'].score, // CONEXION SEXUAL total
+      Object.values(factorScores).reduce((total, factor) => total + factor.score, 0), // TOTAL general
       'No',                           // PDF_Generado
       ''                              // ID_PDF
     );
@@ -213,7 +216,9 @@ function applyConditionalFormatting(sheet) {
   sheet.setConditionalFormatRules(finalRules);
 }
 
-function calculateFactorScores(answers, invertedQuestions) {
+function calculateFactorScores(answers) {
+  // Lista de preguntas con puntuación invertida
+  const invertedQuestions = [1, 2, 3, 4, 6, 7, 10, 19, 21, 30, 31, 33, 45, 49, 50, 52, 63, 65, 66, 68, 75];
   
   const factorDefinitions = {
     'CONSENSO': {
@@ -233,7 +238,6 @@ function calculateFactorScores(answers, invertedQuestions) {
     }
   };
   
-  
   const scores = {};
   
   for (const [factor, definition] of Object.entries(factorDefinitions)) {
@@ -244,8 +248,11 @@ function calculateFactorScores(answers, invertedQuestions) {
       const answer = answers[questionId];
       
       if (answer) {
+        // Check if the question should be scored in reverse
+        const isInverted = invertedQuestions.includes(questionId);
+        const adjustedValue = isInverted ? 5 - parseInt(answer) : parseInt(answer);
         
-        factorScore += parseInt(answer);
+        factorScore += adjustedValue;
         count++;
       }
     }
