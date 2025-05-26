@@ -51,7 +51,7 @@ const FormHeader: React.FC<FormHeaderProps> = ({ spouse, onToggleSpouse, showIns
         </h2>
         
         <div className="flex justify-center">
-        <button
+        <button>
            // onClick={onToggleSpouse}
            // className="text-indigo-300 hover:text-indigo-200 underline transition-colors"
           //>
