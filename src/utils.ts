@@ -63,23 +63,19 @@ export const calculateScore = (formData: FormData): FactorScore[] => {
     const question = questionList.find(q => q.id === qId);
     
     if (question) {
-      factorScores[question.factor].score += value;
+      const isInverted = invertedQuestions.includes(qId);
+      const adjustedValue = isInverted ? 5 - value : value;
+      factorScores[question.factor].score += adjustedValue;
       factorScores[question.factor].count += 1;
     }
   });
 
-  // Convert to array of factor scores with percentages
-  return Object.entries(factorScores).map(([factor, { score, count }]) => {
-    const maxPossible = count * 4; // Maximum possible score (4 points per question)
-    const percentage = Math.round((score / maxPossible) * 100);
-    
-    return {
-      factor: factor as Factor,
-      score,
-      maxPossible,
-      percentage,
-    };
-  });
+  return Object.entries(factorScores).map(([factor, { score }]) => ({
+    factor: factor as Factor,
+    score,
+    maxPossible: 0, // Not needed for Google Sheets submission
+    percentage: 0 // Not needed for Google Sheets submission
+  }));
 };
 
 export const getFactorQuestions = (factor: Factor, language: Language): Question[] => {
@@ -112,6 +108,16 @@ export const submitToGoogleSheets = async (formData: FormData): Promise<boolean>
       console.error('Google Script URL is not configured');
       return false;
     }
+
+    // Calculate factor scores
+    const factorScores = calculateScore(formData);
+    const factorTotals = factorScores.reduce((acc, curr) => {
+      acc[curr.factor] = curr.score;
+      return acc;
+    }, {} as Record<Factor, number>);
+
+    // Calculate total score
+    const totalScore = factorScores.reduce((total, factor) => total + factor.score, 0);
     
     // Transform the data before sending
     const transformedData = {
@@ -120,7 +126,14 @@ export const submitToGoogleSheets = async (formData: FormData): Promise<boolean>
       email: formData.email.toLowerCase(),
       personalInfo: transformPersonalInfo(formData.personalInfo),
       // Add sheet name based on spouse type
-      sheetName: formData.spouse === 'husband' ? 'Esposos' : 'Esposas'
+      sheetName: formData.spouse === 'husband' ? 'Esposos' : 'Esposas',
+      // Add factor scores
+      CONSENSO: factorTotals['CONSENSO'],
+      SATISFACCION: factorTotals['SATISFACCION'],
+      COHESION: factorTotals['COHESION'],
+      'EXPRESION DE AFECTO': factorTotals['EXPRESION DE AFECTO'],
+      'CONEXION SEXUAL': factorTotals['CONEXION SEXUAL'],
+      TOTAL: totalScore
     };
     
     // Send data to Google Sheets
