@@ -164,7 +164,7 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
             value={personalInfo[field.id as keyof PersonalInfo] || ''}
             onChange={(e) => onChange(field.id as keyof PersonalInfo, e.target.value)}
           >
-            <option value="">{`Seleccion ${field.label.toLowerCase()}`}</option>
+            <option value="">{`${field.label.toLowerCase()}`}</option>
             {field.options.map((option: string) => (
               <option key={option} value={option}>
                 {option}
