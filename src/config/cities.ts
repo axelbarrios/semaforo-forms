@@ -3,39 +3,32 @@ export interface CountryCities {
 }
 
 export const countries = [
-  'ESTADOS UNIDOS',
-  'ECUADOR',
-  'COLOMBIA',
-  'BRASIL'
+  'USA',
+  'Ecuador',
+  'Brasil',
+  'Colombia'
 ] as const;
 
 export const citiesByCountry: CountryCities = {
-  'ESTADOS UNIDOS': [
-    'MIAMI',
-    'ORLANDO',
-    'TAMPA',
-    'JACKSONVILLE',
-    'WEST PALM BEACH'
+  'USA': [
+    'Florida',
+    'Washington',
+    'Colorado',
+    'Nebraska'
   ],
-  'ECUADOR': [
-    'QUITO',
-    'GUAYAQUIL',
-    'CUENCA',
-    'MANTA',
-    'MACHALA'
+  'Ecuador': [
+    'Quito'
   ],
-  'COLOMBIA': [
-    'BOGOTÁ',
-    'MEDELLÍN',
-    'CALI',
-    'BARRANQUILLA',
-    'CARTAGENA'
+  'Colombia': [
+    'Bogotá',
+    'Medellín'
   ],
-  'BRASIL': [
-    'SÃO PAULO',
-    'RIO DE JANEIRO',
-    'BRASÍLIA',
-    'SALVADOR',
-    'FORTALEZA'
+  'Brasil': [
+    'Sao Paulo',
+    'Curitiba',
+    'Maringa',
+    'Betim',
+    'Furrapilha',
+    'Dourados'
   ]
 };
