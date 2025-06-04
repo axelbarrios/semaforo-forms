@@ -58,9 +58,17 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
 
   const getMaritalStatusOptions = () => {
     if (spouse === 'husband') {
-      return ['Soltero', 'Casado', 'Comprometido'];
+      return [
+        { value: 'Soltero', label: t('single_male') },
+        { value: 'Casado', label: t('married_male') },
+        { value: 'Comprometido', label: t('engaged_male') }
+      ];
     }
-    return ['Soltera', 'Casada', 'Comprometida'];
+    return [
+      { value: 'Soltera', label: t('single_female') },
+      { value: 'Casada', label: t('married_female') },
+      { value: 'Comprometida', label: t('engaged_female') }
+    ];
   };
 
   const childrenOptions = ['1', '2', '3', '4', '5', '6', '7', '8'];
@@ -164,10 +172,10 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
             value={personalInfo[field.id as keyof PersonalInfo] || ''}
             onChange={(e) => onChange(field.id as keyof PersonalInfo, e.target.value)}
           >
-            <option value="">{`${field.label.toLowerCase()}`}</option>
-            {field.options.map((option: string) => (
-              <option key={option} value={option}>
-                {option}
+            <option value="">{`${t('select')} ${field.label.toLowerCase()}`}</option>
+            {field.options.map((option: any) => (
+              <option key={option.value || option} value={option.value || option}>
+                {option.label || option}
               </option>
             ))}
           </select>

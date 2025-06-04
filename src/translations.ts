@@ -338,5 +338,40 @@ export const translations = {
     es: "Esposa",
     pt: "Esposa",
     en: "Wife"
+  },
+  single_male: {
+    es: "Soltero",
+    pt: "Solteiro",
+    en: "Single"
+  },
+  married_male: {
+    es: "Casado",
+    pt: "Casado",
+    en: "Married"
+  },
+  engaged_male: {
+    es: "Comprometido",
+    pt: "Noivo",
+    en: "Engaged"
+  },
+  single_female: {
+    es: "Soltera",
+    pt: "Solteira",
+    en: "Single"
+  },
+  married_female: {
+    es: "Casada",
+    pt: "Casada",
+    en: "Married"
+  },
+  engaged_female: {
+    es: "Comprometida",
+    pt: "Noiva",
+    en: "Engaged"
+  },
+  select: {
+    es: "Seleccione",
+    pt: "Selecione",
+    en: "Select"
   }
 };

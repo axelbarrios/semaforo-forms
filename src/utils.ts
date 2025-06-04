@@ -1,9 +1,19 @@
 import { Factor, FactorScore, FormData, Question, Language } from './types';
 import { questions } from './questions';
 import { questions_pt } from './questions_pt';
+import { questions_en } from './questions_en';
 
 export const getQuestions = (language: Language): Question[] => {
-  return language === 'es' ? questions : questions_pt;
+  switch (language) {
+    case 'es':
+      return questions;
+    case 'pt':
+      return questions_pt;
+    case 'en':
+      return questions_en;
+    default:
+      return questions;
+  }
 };
 
 // Function to capitalize first letter of each word
