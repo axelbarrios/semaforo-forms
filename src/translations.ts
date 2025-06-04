@@ -145,27 +145,27 @@ export const translations = {
     en: "Dear couple,"
   },
   welcomeParagraph1: {
-    es: "Les damos la bienvenida a esta evaluación matrimonial diseñada para ayudarles a comprender mejor su relación.",
+    es: "Gracias por tu interés en participar en este estudio que busca comprender mejor los diferentes aspectos que contribuyen a la madurez de una relación matrimonial. Tu participación es fundamental para proporcionar información valiosa que servirá de ayuda a tu relación de pareja, así también, para poder ayudar a otras parejas en diversas etapas de su vida juntos.",
     pt: "Bem-vindos a esta avaliação matrimonial projetada para ajudá-los a entender melhor seu relacionamento.",
     en: "Welcome to this marriage evaluation designed to help you better understand your relationship."
   },
   welcomeParagraph2: {
-    es: "Esta evaluación es confidencial y sus respuestas nos ayudarán a identificar áreas de fortaleza y oportunidades de crecimiento en su matrimonio.",
+    es: "Este cuestionario ha sido diseñado cuidadosamente para evaluar varios aspectos de la madurez en una relación matrimonial. La madurez en una relación se refiere a la capacidad de las parejas para manejar los desafíos, comunicarse de manera efectiva, expresar y recibir afecto, así como enfrentar las adversidades juntos como equipo.",
     pt: "Esta avaliação é confidencial e suas respostas nos ajudarão a identificar áreas de força e oportunidades de crescimento em seu casamento.",
     en: "This evaluation is confidential and your answers will help us identify areas of strength and growth opportunities in your marriage."
   },
   welcomeParagraph3: {
-    es: "Por favor, respondan con honestidad y apertura. No hay respuestas correctas o incorrectas.",
+    es: "Tu participación es completamente anónima y confidencial. Por favor, responde cada pregunta con sinceridad y basándote en tu experiencia personal y en tu relación de pareja. Recuerda que no hay respuestas correctas o incorrectas; lo importante es que compartas tus pensamientos y sentimientos de manera honesta.",
     pt: "Por favor, respondam com honestidade e abertura. Não há respostas certas ou erradas.",
     en: "Please answer with honesty and openness. There are no right or wrong answers."
   },
   welcomeParagraph4: {
-    es: "Tómense el tiempo necesario para reflexionar sobre cada pregunta.",
+    es: "Tu contribución ayudará a ampliar nuestro entendimiento sobre los factores que contribuyen a relaciones matrimoniales saludables y maduras. Los resultados de este estudio podrían ser utilizados para desarrollar recursos y herramientas que apoyen a las parejas en la construcción y fortalecimiento de sus relaciones.",
     pt: "Tomem o tempo necessário para refletir sobre cada pergunta.",
     en: "Take the necessary time to reflect on each question."
   },
   welcomeThanks: {
-    es: "Gracias por su participación en este proceso de crecimiento matrimonial.",
+    es: "Gracias de antemano por tu tiempo y participación.",
     pt: "Obrigado por sua participação neste processo de crescimento matrimonial.",
     en: "Thank you for your participation in this marriage growth process."
   },
@@ -175,9 +175,9 @@ export const translations = {
     en: "Sincerely,"
   },
   pastorName: {
-    es: "Pastor Juan Pérez",
-    pt: "Pastor João Silva",
-    en: "Pastor John Smith"
+    es: "Pastora Alejandra Beckley",
+    pt: "Pastora Alejandra Beckley",
+    en: "Pastora Alejandra Beckley"
   },
   startEvaluation: {
     es: "Comenzar Evaluación",
