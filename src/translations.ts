@@ -147,27 +147,27 @@ export const translations = {
   welcomeParagraph1: {
     es: "Gracias por tu interés en participar en este estudio que busca comprender mejor los diferentes aspectos que contribuyen a la madurez de una relación matrimonial. Tu participación es fundamental para proporcionar información valiosa que servirá de ayuda a tu relación de pareja, así también, para poder ayudar a otras parejas en diversas etapas de su vida juntos.",
     pt: "Agradecemos seu interesse em participar deste estudo que busca compreender melhor os diferentes aspectos que contribuem para o amadurecimento de um relacionamento conjugal. Sua participação é essencial para fornecer informações valiosas que ajudarão seu relacionamento, bem como para poder ajudar outros casais em várias fases de sua vida juntos.",
-    en: "Welcome to this marriage evaluation designed to help you better understand your relationship."
+    en: "Thank you for your interest in participating in this study that seeks to better understand the different aspects that contribute to the maturity of a marital relationship. Your participation is essential in providing valuable information that will help your relationship, as well as helping other couples at various stages of their life together."
   },
   welcomeParagraph2: {
     es: "Este cuestionario ha sido diseñado cuidadosamente para evaluar varios aspectos de la madurez en una relación matrimonial. La madurez en una relación se refiere a la capacidad de las parejas para manejar los desafíos, comunicarse de manera efectiva, expresar y recibir afecto, así como enfrentar las adversidades juntos como equipo.",
     pt: "Este questionário foi cuidadosamente elaborado para avaliar vários aspectos da maturidade em um relacionamento matrimonial. A maturidade em um relacionamento refere-se à capacidade dos casais de lidar com desafios, comunicar-se efetivamente, expressar e receber afeto, bem como enfrentar as adversidades juntos como uma equipe.",
-    en: "This evaluation is confidential and your answers will help us identify areas of strength and growth opportunities in your marriage."
+    en: "This questionnaire has been carefully designed to evaluate various aspects of maturity in a marital relationship. Relationship maturity refers to couples' ability to handle challenges, communicate effectively, express and receive affection, and face adversities together as a team."
   },
   welcomeParagraph3: {
     es: "Tu participación es completamente anónima y confidencial. Por favor, responde cada pregunta con sinceridad y basándote en tu experiencia personal y en tu relación de pareja. Recuerda que no hay respuestas correctas o incorrectas; lo importante es que compartas tus pensamientos y sentimientos de manera honesta.",
     pt: "Sua participação é completamente anônima e confidencial. Por favor, responda a cada pergunta com verdade e com base em sua experiência pessoal E seu relacionamento. Lembre-se de que não há respostas certas ou erradas; O importante é que você compartilhe seus pensamentos e sentimentos honestamente.",
-    en: "Please answer with honesty and openness. There are no right or wrong answers."
+    en: "Your participation is completely anonymous and confidential. Please answer each question truthfully based on your personal experience and your relationship. Remember that there are no right or wrong answers; what's important is that you share your thoughts and feelings honestly."
   },
   welcomeParagraph4: {
     es: "Tu contribución ayudará a ampliar nuestro entendimiento sobre los factores que contribuyen a relaciones matrimoniales saludables y maduras. Los resultados de este estudio podrían ser utilizados para desarrollar recursos y herramientas que apoyen a las parejas en la construcción y fortalecimiento de sus relaciones.",
     pt: "Sua contribuição ajudará a expandir nossa compreensão dos fatores que contribuem para relacionamentos matrimoniais saudáveis e maduros. Os resultados deste estudo poderão ser utilizados para desenvolver recursos e ferramentas para apoiar casais na construção e fortalecimento de seus relacionamentos.",
-    en: "Take the necessary time to reflect on each question."
+    en: "Your contribution will help expand our understanding of the factors that contribute to healthy and mature marital relationships. The results of this study may be used to develop resources and tools to support couples in building and strengthening their relationships."
   },
   welcomeThanks: {
     es: "Gracias de antemano por tu tiempo y participación.",
     pt: "Agradecemos desde já o seu tempo e participação.",
-    en: "Thank you for your participation in this marriage growth process."
+    en: "Thank you in advance for your time and participation."
   },
   sincerely: {
     es: "Atentamente,",
