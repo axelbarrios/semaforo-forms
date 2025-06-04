@@ -146,27 +146,27 @@ export const translations = {
   },
   welcomeParagraph1: {
     es: "Gracias por tu interés en participar en este estudio que busca comprender mejor los diferentes aspectos que contribuyen a la madurez de una relación matrimonial. Tu participación es fundamental para proporcionar información valiosa que servirá de ayuda a tu relación de pareja, así también, para poder ayudar a otras parejas en diversas etapas de su vida juntos.",
-    pt: "Bem-vindos a esta avaliação matrimonial projetada para ajudá-los a entender melhor seu relacionamento.",
+    pt: "Agradecemos seu interesse em participar deste estudo que busca compreender melhor os diferentes aspectos que contribuem para o amadurecimento de um relacionamento conjugal. Sua participação é essencial para fornecer informações valiosas que ajudarão seu relacionamento, bem como para poder ajudar outros casais em várias fases de sua vida juntos.",
     en: "Welcome to this marriage evaluation designed to help you better understand your relationship."
   },
   welcomeParagraph2: {
     es: "Este cuestionario ha sido diseñado cuidadosamente para evaluar varios aspectos de la madurez en una relación matrimonial. La madurez en una relación se refiere a la capacidad de las parejas para manejar los desafíos, comunicarse de manera efectiva, expresar y recibir afecto, así como enfrentar las adversidades juntos como equipo.",
-    pt: "Esta avaliação é confidencial e suas respostas nos ajudarão a identificar áreas de força e oportunidades de crescimento em seu casamento.",
+    pt: "Este questionário foi cuidadosamente elaborado para avaliar vários aspectos da maturidade em um relacionamento matrimonial. A maturidade em um relacionamento refere-se à capacidade dos casais de lidar com desafios, comunicar-se efetivamente, expressar e receber afeto, bem como enfrentar as adversidades juntos como uma equipe.",
     en: "This evaluation is confidential and your answers will help us identify areas of strength and growth opportunities in your marriage."
   },
   welcomeParagraph3: {
     es: "Tu participación es completamente anónima y confidencial. Por favor, responde cada pregunta con sinceridad y basándote en tu experiencia personal y en tu relación de pareja. Recuerda que no hay respuestas correctas o incorrectas; lo importante es que compartas tus pensamientos y sentimientos de manera honesta.",
-    pt: "Por favor, respondam com honestidade e abertura. Não há respostas certas ou erradas.",
+    pt: "Sua participação é completamente anônima e confidencial. Por favor, responda a cada pergunta com verdade e com base em sua experiência pessoal E seu relacionamento. Lembre-se de que não há respostas certas ou erradas; O importante é que você compartilhe seus pensamentos e sentimentos honestamente.",
     en: "Please answer with honesty and openness. There are no right or wrong answers."
   },
   welcomeParagraph4: {
     es: "Tu contribución ayudará a ampliar nuestro entendimiento sobre los factores que contribuyen a relaciones matrimoniales saludables y maduras. Los resultados de este estudio podrían ser utilizados para desarrollar recursos y herramientas que apoyen a las parejas en la construcción y fortalecimiento de sus relaciones.",
-    pt: "Tomem o tempo necessário para refletir sobre cada pergunta.",
+    pt: "Sua contribuição ajudará a expandir nossa compreensão dos fatores que contribuem para relacionamentos matrimoniais saudáveis e maduros. Os resultados deste estudo poderão ser utilizados para desenvolver recursos e ferramentas para apoiar casais na construção e fortalecimento de seus relacionamentos.",
     en: "Take the necessary time to reflect on each question."
   },
   welcomeThanks: {
     es: "Gracias de antemano por tu tiempo y participación.",
-    pt: "Obrigado por sua participação neste processo de crescimento matrimonial.",
+    pt: "Agradecemos desde já o seu tempo e participação.",
     en: "Thank you for your participation in this marriage growth process."
   },
   sincerely: {
