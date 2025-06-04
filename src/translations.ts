@@ -250,9 +250,9 @@ export const translations = {
     en: "Marital Status"
   },
   timeAsCouple: {
-    es: "Tiempo como pareja",
-    pt: "Tempo como casal",
-    en: "Time as a couple"
+    es: "Tiempo como pareja (cantidad en años)",
+    pt: "Tempo como casal (quantidade em anos)",
+    en: "Time as a couple (amount in years)"
   },
   previousMarriages: {
     es: "Matrimonios anteriores",
