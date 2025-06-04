@@ -44,21 +44,17 @@ const transformPersonalInfo = (personalInfo: FormData['personalInfo']): FormData
   return transformed;
 };
 
-// Get the Google Script URL for the unified sheet
+// Get the Google Script URL based on environment
 const getGoogleScriptUrl = (): string => {
-  const environment = import.meta.env.VITE_ENVIRONMENT || 'production';
-  const urls = {
-    production: import.meta.env.VITE_GOOGLE_SCRIPT_URL_PRODUCTION,
-    testing: import.meta.env.VITE_GOOGLE_SCRIPT_URL_TESTING
-  };
+  const productionUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL_PRODUCTION;
+  const testingUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL_TESTING;
   
-  const url = urls[environment as 'production' | 'testing'];
-  
-  if (!url) {
-    throw new Error(`Google Script URL not configured for ${environment} mode`);
+  if (!productionUrl && !testingUrl) {
+    throw new Error('No Google Script URL configured');
   }
-  
-  return url;
+
+  // Default to production URL if available, otherwise use testing URL
+  return productionUrl || testingUrl;
 };
 
 export const submitToGoogleSheets = async (formData: FormData): Promise<boolean> => {
