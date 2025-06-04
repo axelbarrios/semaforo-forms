@@ -105,7 +105,7 @@ export const submitToGoogleSheets = async (formData: FormData): Promise<boolean>
 };
 
 export const getFactorQuestions = (factor: Factor, language: Language): Question[] => {
-  const questionList = language === 'es' ? questions : questions_pt;
+  const questionList = getQuestions(language);
   return questionList.filter(q => q.factor === factor);
 };
 
@@ -124,7 +124,7 @@ export const calculateScore = (formData: FormData): FactorScore[] => {
   // Calculate scores for each factor
   Object.entries(formData.answers).forEach(([questionId, value]) => {
     const qId = parseInt(questionId);
-    const questionList = formData.language === 'es' ? questions : questions_pt;
+    const questionList = getQuestions(formData.language);
     const question = questionList.find(q => q.id === qId);
     
     if (question) {
