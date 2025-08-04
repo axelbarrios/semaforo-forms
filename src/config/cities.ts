@@ -36,7 +36,7 @@ export const citiesByCountry: CountryCities = {
     'Belo horizonte',
     'Foz de Iguazu'
   ],
-  'Mexico': [
+  'México': [
     'Cuernavaca'
   ],
   
