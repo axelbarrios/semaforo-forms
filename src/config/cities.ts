@@ -39,9 +39,9 @@ export const citiesByCountry: CountryCities = {
   'Mexico': [
     'Cuernavaca'
   ],
+  
   'Guatemala': [
-    'Guatemala',
-    'Xela',
+    'Xela'
   ],
   
 };
