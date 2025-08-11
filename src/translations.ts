@@ -240,9 +240,9 @@ export const translations = {
     en: "Select a country"
   },
   selectCity: {
-    es: "Seleccione una ciudad",
-    pt: "Selecione uma cidade",
-    en: "Select a city"
+    es: "Seleccione la ciudad donde será su REM",
+    pt: "Selecione a cidade onde seu REM será",
+    en: "Select the city where your REM will be"
   },
   maritalStatus: {
     es: "Estado Civil",
