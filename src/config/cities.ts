@@ -19,15 +19,16 @@ export const citiesByCountry: CountryCities = {
     'Washington',
     'Colorado',
     'Nebraska',
-    'REM TEAMS',
+    'REM TEAMS'
   ],
   'Ecuador': [
-    'Quito'
+    'Quito',
+    'REM TEAMS'
   ],
   'Colombia': [
     'Bogotá',
     'Medellín',
-    'REM TEAMS',
+    'REM TEAMS'
   ],
   'Brasil': [
     'Sao Paulo',
@@ -38,16 +39,16 @@ export const citiesByCountry: CountryCities = {
     'Vale da Onça',
     'Belo horizonte',
     'Foz de Iguazu',
-    'REM TEAMS',
+    'REM TEAMS'
   ],
   'México': [
     'Cuernavaca',
-    'REM TEAMS',
+    'REM TEAMS'
   ],
   
   'Guatemala': [
     'Xela',
-    'REM TEAMS',
+    'REM TEAMS'
   ],
   
 };
