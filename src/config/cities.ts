@@ -10,6 +10,7 @@ export const countries = [
   'México',
   'Guatemala',
   
+  
 ] as const;
 
 export const citiesByCountry: CountryCities = {
@@ -17,14 +18,16 @@ export const citiesByCountry: CountryCities = {
     'Florida',
     'Washington',
     'Colorado',
-    'Nebraska'
+    'Nebraska',
+    'REM TEAMS',
   ],
   'Ecuador': [
     'Quito'
   ],
   'Colombia': [
     'Bogotá',
-    'Medellín'
+    'Medellín',
+    'REM TEAMS',
   ],
   'Brasil': [
     'Sao Paulo',
@@ -34,14 +37,17 @@ export const citiesByCountry: CountryCities = {
     'Farropilha',
     'Vale da Onça',
     'Belo horizonte',
-    'Foz de Iguazu'
+    'Foz de Iguazu',
+    'REM TEAMS',
   ],
   'México': [
-    'Cuernavaca'
+    'Cuernavaca',
+    'REM TEAMS',
   ],
   
   'Guatemala': [
-    'Xela'
+    'Xela',
+    'REM TEAMS',
   ],
   
 };
